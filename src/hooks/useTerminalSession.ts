@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState, type KeyboardEvent } from "react";
 import { findTerminalCommand, terminalCommands } from "@/content/commands";
 import { portfolioData } from "@/content/data";
+import { downloadResume } from "@/content/resume";
 import type { PortfolioSectionId } from "@/content/sections";
 
 export interface TerminalEntry {
@@ -153,6 +154,9 @@ function useTerminalSession(
           openExternalUrl(link.url);
           return { lines: [`opening ${project.name}...`] };
         }
+        case "resume":
+          downloadResume();
+          return { lines: ["downloading résumé..."] };
         case "whoami":
           return {
             lines: [],

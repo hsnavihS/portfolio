@@ -1,6 +1,7 @@
 import { portfolioSections } from "@/content/sections";
 import type { PortfolioSectionId } from "@/content/sections";
 import { portfolioData } from "@/content/data";
+import ResumeLink from "@/components/ResumeLink";
 
 interface DesktopSidebarProps {
   activeSection: PortfolioSectionId;
@@ -48,7 +49,7 @@ function DesktopSidebar({ activeSection, onSelect }: DesktopSidebarProps) {
               {link.label.toLowerCase()}
             </a>
           ))}
-          <span>download resume</span>
+          <ResumeLink className="text-link">download resume</ResumeLink>
         </div>
         <span className="theme-label">theme: noir</span>
       </div>

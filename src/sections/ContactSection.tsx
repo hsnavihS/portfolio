@@ -1,4 +1,6 @@
+import ResumeLink from "@/components/ResumeLink";
 import { portfolioData } from "@/content/data";
+import { formatResumeUpdatedAt } from "@/content/resume";
 import SectionShell from "@/sections/SectionShell";
 
 interface ContactSectionProps {
@@ -21,6 +23,13 @@ function ContactSection({ includeAnchor = true }: ContactSectionProps) {
       </p>
 
       <div className="contact-links">
+        <div className="resume-contact">
+          <ResumeLink className="text-link">Download résumé</ResumeLink>
+          <span>
+            updated{" "}
+            {formatResumeUpdatedAt(portfolioData.resume.sourceModifiedAt)}
+          </span>
+        </div>
         {identity.email && (
           <a className="text-link" href={`mailto:${identity.email}`}>
             {identity.email}

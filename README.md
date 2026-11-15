@@ -15,9 +15,10 @@ The build-time generator writes:
 
 - `src/generated/resume.txt` for inspecting the normalized PDF extraction.
 - `src/generated/portfolio.json` for the structured portfolio data.
+- `public/resume.pdf` for the deployed download asset.
 
-These files are local build artifacts and are not committed. They are recreated by
-`npm run generate:content`, `npm run dev`, and `npm run build`.
+These files are local build artifacts and are not committed. They are recreated
+by `npm run generate:content`, `npm run dev`, and `npm run build`.
 
 Display copy, project technologies, and contact visibility are configured in
 `src/content/portfolio-overrides.json`. Phone visibility is disabled by default.

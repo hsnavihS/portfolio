@@ -63,6 +63,11 @@ export const terminalCommands: TerminalCommandDefinition[] = [
     description: "open a project link",
   },
   {
+    name: "resume",
+    usage: "resume",
+    description: "download the latest résumé",
+  },
+  {
     name: "whoami",
     usage: "whoami",
     description: "show profile information",

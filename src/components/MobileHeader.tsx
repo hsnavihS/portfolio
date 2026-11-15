@@ -1,3 +1,5 @@
+import ResumeLink from "@/components/ResumeLink";
+
 function MobileHeader() {
   return (
     <header className="mobile-header">
@@ -6,11 +8,8 @@ function MobileHeader() {
         <p className="mobile-role">software engineer</p>
       </div>
 
-      <div
-        className="mobile-header-meta"
-        aria-label="Portfolio options preview"
-      >
-        <span>resume</span>
+      <div className="mobile-header-meta" aria-label="Portfolio options">
+        <ResumeLink className="text-link">resume</ResumeLink>
         <span>noir</span>
       </div>
     </header>

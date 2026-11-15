@@ -1,4 +1,4 @@
-import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readFile, stat, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { PDFParse } from "pdf-parse";
 import { format } from "prettier";
@@ -8,6 +8,7 @@ const resumePath = resolve(root, "resume.pdf");
 const overridesPath = resolve(root, "src/content/portfolio-overrides.json");
 const rawOutputPath = resolve(root, "src/generated/resume.txt");
 const dataOutputPath = resolve(root, "src/generated/portfolio.json");
+const publicResumePath = resolve(root, "public/resume.pdf");
 
 const sectionNames = [
   "EDUCATION",
@@ -423,6 +424,7 @@ async function main() {
   await Promise.all([
     writeFile(rawOutputPath, `${normalizedText}\n`, "utf8"),
     writeFile(dataOutputPath, formattedData, "utf8"),
+    copyFile(resumePath, publicResumePath),
   ]);
 
   console.log(
