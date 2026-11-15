@@ -470,11 +470,14 @@ a:focus-visible {
 
   .terminal-preview {
     display: flex;
-    min-height: calc(100vh - 44px);
+    height: calc(100vh - 44px);
+    min-height: 0;
     flex-direction: column;
+    overflow: hidden;
     border: 1px solid var(--accent-dim);
     background: rgba(5, 8, 6, 0.72);
     box-shadow: inset 0 0 42px rgba(0, 0, 0, 0.45);
+    container-type: inline-size;
   }
 
   .desktop-content {
@@ -530,14 +533,16 @@ a:focus-visible {
   }
 
   .terminal-body {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(220px, 27%);
-    gap: clamp(28px, 5vw, 80px);
+    flex: 1;
+    min-height: 0;
     padding: clamp(36px, 6vw, 72px);
+    overflow-y: auto;
+    scrollbar-color: var(--accent-dim) var(--bg);
   }
 
   .terminal-copy {
-    max-width: 760px;
+    min-width: 0;
+    cursor: text;
   }
 
   .terminal-command {
@@ -548,7 +553,14 @@ a:focus-visible {
     text-shadow: var(--glow);
   }
 
-  .terminal-copy h1 {
+  .whoami-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 27%);
+    gap: clamp(28px, 5vw, 80px);
+    align-items: start;
+  }
+
+  .whoami-output h1 {
     margin: 0 0 18px;
     color: var(--text-h);
     font-size: clamp(2rem, 4vw, 3.25rem);
@@ -556,22 +568,78 @@ a:focus-visible {
     line-height: 1.05;
   }
 
-  .terminal-copy > p:not(.terminal-command, .terminal-prompt) {
+  .whoami-output > p {
     max-width: 62ch;
-    margin: 0 0 44px;
+    margin: 0 0 18px;
     font-size: clamp(1rem, 1.5vw, 1.2rem);
     line-height: 1.7;
   }
 
-  .command-list {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(110px, max-content));
-    gap: 8px 36px;
-    margin-bottom: 50px;
-    color: var(--accent);
+  .whoami-output .terminal-hint {
+    margin-bottom: 44px;
+    color: var(--text);
+    font-size: 1rem;
   }
 
-  .terminal-prompt {
+  .terminal-hint code {
+    color: var(--accent);
+    font: inherit;
+    font-weight: 700;
+    text-shadow: var(--glow);
+  }
+
+  .help-output {
+    display: grid;
+    gap: 8px;
+  }
+
+  .help-row {
+    display: grid;
+    grid-template-columns: minmax(150px, max-content) minmax(0, 1fr);
+    gap: 24px;
+    line-height: 1.45;
+  }
+
+  .help-row code {
+    color: var(--accent);
+    font: inherit;
+  }
+
+  .help-row span {
+    color: var(--text-h);
+  }
+
+  .terminal-history {
+    display: grid;
+    gap: 28px;
+    margin-bottom: 22px;
+  }
+
+  .terminal-entry {
+    min-width: 0;
+  }
+
+  .terminal-entry .terminal-command {
+    margin-bottom: 8px;
+  }
+
+  .terminal-output {
+    display: grid;
+    gap: 4px;
+    color: var(--text-h);
+  }
+
+  .terminal-output p {
+    margin: 0;
+    line-height: 1.5;
+    white-space: pre-wrap;
+  }
+
+  .terminal-output.is-error {
+    color: var(--danger);
+  }
+
+  .terminal-form {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -580,12 +648,44 @@ a:focus-visible {
     font-size: 1.2rem;
   }
 
-  .cursor {
+  .terminal-form label {
+    font-weight: 700;
+    text-shadow: var(--glow);
+  }
+
+  .terminal-input-value {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    max-width: calc(100% - 24px);
+  }
+
+  .terminal-form input {
+    min-width: 0;
+    max-width: 100%;
+    padding: 4px 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    caret-color: transparent;
+    color: var(--text-h);
+    font: inherit;
+  }
+
+  .terminal-form input:focus {
+    border: 0;
+    outline: 0;
+    box-shadow: none;
+  }
+
+  .terminal-cursor {
     width: 10px;
     height: 1.2em;
+    flex: 0 0 10px;
     background: var(--accent);
     box-shadow: var(--glow);
     animation: blink 1s step-end infinite;
+    pointer-events: none;
   }
 
   .status-panel {
@@ -598,21 +698,61 @@ a:focus-visible {
     box-shadow: var(--shadow);
   }
 
-  .status-panel span {
+  .status-panel div {
+    display: grid;
+    gap: 6px;
     margin-top: 12px;
+  }
+
+  .status-panel div:first-child {
+    margin-top: 0;
+  }
+
+  .status-panel span {
     color: var(--accent);
     font-size: 0.78rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
-  .status-panel span:first-child {
-    margin-top: 0;
-  }
-
   .status-panel strong {
     color: #bdc8dc;
     font-weight: 400;
+  }
+}
+
+@container (max-width: 760px) {
+  .whoami-layout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .status-panel {
+    width: 100%;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    padding: 14px 0;
+    box-shadow: none;
+  }
+
+  .status-panel div {
+    gap: 4px;
+    margin: 0;
+    padding: 0 14px;
+    border-left: 1px solid var(--border);
+  }
+
+  .status-panel div:first-child {
+    border-left: 0;
+  }
+
+  .status-panel strong {
+    font-size: 0.85rem;
+  }
+
+  .help-row {
+    grid-template-columns: minmax(120px, max-content) minmax(0, 1fr);
+    gap: 14px;
   }
 }
 

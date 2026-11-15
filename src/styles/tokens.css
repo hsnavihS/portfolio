@@ -11,6 +11,7 @@
   --accent: #33ff99;
   --accent-dim: #1a9960;
   --accent-bg: rgba(51, 255, 153, 0.08);
+  --danger: #ff4444;
   --font-heading: "Ubuntu Mono", "Courier New", monospace;
   --font-body: "Ubuntu Mono", "Consolas", "Courier New", monospace;
   --glow: 0 0 8px rgba(51, 255, 153, 0.3), 0 0 20px rgba(51, 255, 153, 0.1);
