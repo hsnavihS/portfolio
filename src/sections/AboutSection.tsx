@@ -1,11 +1,21 @@
 import { portfolioData } from "@/content/data";
 import SectionShell from "@/sections/SectionShell";
 
-function AboutSection() {
+interface AboutSectionProps {
+  includeAnchor?: boolean;
+}
+
+function AboutSection({ includeAnchor = true }: AboutSectionProps) {
   const { identity, experience } = portfolioData;
 
   return (
-    <SectionShell id="home" index={1} label="about" title={identity.headline}>
+    <SectionShell
+      id="home"
+      includeAnchor={includeAnchor}
+      index={1}
+      label="about"
+      title={identity.headline}
+    >
       <p className="section-intro">{identity.summary}</p>
 
       <dl className="about-facts">

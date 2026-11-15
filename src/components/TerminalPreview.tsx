@@ -3,6 +3,8 @@ import { terminalCommands } from "@/content/commands";
 import type { TerminalSession } from "@/hooks/useTerminalSession";
 
 interface TerminalPreviewProps {
+  expanded: boolean;
+  onToggle: () => void;
   session: TerminalSession;
 }
 
@@ -51,20 +53,42 @@ function HelpOutput() {
   );
 }
 
-function TerminalPreview({ session }: TerminalPreviewProps) {
+function getDockSummary(session: TerminalSession) {
+  const latestEntry = session.entries.at(-1);
+
+  if (!latestEntry) {
+    return "ready";
+  }
+
+  if (latestEntry.output === "whoami") {
+    return "profile displayed";
+  }
+
+  if (latestEntry.output === "help") {
+    return "available commands displayed";
+  }
+
+  return latestEntry.lines.at(-1) ?? "command complete";
+}
+
+function TerminalPreview({
+  expanded,
+  onToggle,
+  session,
+}: TerminalPreviewProps) {
   const terminalBody = useRef<HTMLDivElement>(null);
   const terminalInput = useRef<HTMLInputElement>(null);
 
   useLayoutEffect(() => {
     const body = terminalBody.current;
-    if (body) {
+    if (body && expanded) {
       body.scrollTop = body.scrollHeight;
     }
 
     if (window.matchMedia("(min-width: 769px)").matches) {
       terminalInput.current?.focus();
     }
-  }, [session.entries.length]);
+  }, [expanded, session.entries.length]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -72,10 +96,25 @@ function TerminalPreview({ session }: TerminalPreviewProps) {
   };
 
   return (
-    <section className="terminal-preview" aria-label="Interactive terminal">
+    <section
+      className={`terminal-preview ${expanded ? "is-expanded" : "is-docked"}`}
+      aria-label="Interactive terminal"
+    >
       <header className="terminal-titlebar">
         <span>shivansh@portfolio: ~</span>
-        <span className="terminal-status">interactive</span>
+        <div className="terminal-titlebar-actions">
+          <span className="terminal-status">
+            {expanded ? "interactive" : "docked"}
+          </span>
+          <button
+            aria-expanded={expanded}
+            className="terminal-toggle"
+            onClick={onToggle}
+            type="button"
+          >
+            {expanded ? "collapse" : "expand"}
+          </button>
+        </div>
       </header>
 
       <div className="terminal-body" ref={terminalBody}>
@@ -83,30 +122,41 @@ function TerminalPreview({ session }: TerminalPreviewProps) {
           className="terminal-copy"
           onClick={() => terminalInput.current?.focus()}
         >
-          <p className="terminal-command">$ whoami</p>
-          <WhoAmIOutput />
+          <div className="terminal-expanded-content">
+            <p className="terminal-command">$ whoami</p>
+            <WhoAmIOutput />
 
-          <div className="terminal-history" aria-live="polite">
-            {session.entries.map((entry) => (
-              <div className="terminal-entry" key={entry.id}>
-                <p className="terminal-command">$ {entry.command}</p>
-                {entry.output === "whoami" ? (
-                  <WhoAmIOutput />
-                ) : entry.output === "help" ? (
-                  <HelpOutput />
-                ) : (
-                  <div
-                    className={`terminal-output${
-                      entry.tone === "error" ? " is-error" : ""
-                    }`}
-                  >
-                    {entry.lines.map((line, index) => (
-                      <p key={`${entry.id}-${index}`}>{line}</p>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+            <div className="terminal-history" aria-live="polite">
+              {session.entries.map((entry) => (
+                <div className="terminal-entry" key={entry.id}>
+                  <p className="terminal-command">$ {entry.command}</p>
+                  {entry.output === "whoami" ? (
+                    <WhoAmIOutput />
+                  ) : entry.output === "help" ? (
+                    <HelpOutput />
+                  ) : (
+                    <div
+                      className={`terminal-output${
+                        entry.tone === "error" ? " is-error" : ""
+                      }`}
+                    >
+                      {entry.lines.map((line, index) => (
+                        <p key={`${entry.id}-${index}`}>{line}</p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="terminal-dock-summary" aria-live="polite">
+            <span>
+              {session.entries.at(-1)
+                ? `$ ${session.entries.at(-1)?.command}`
+                : "$"}
+            </span>
+            <span>{getDockSummary(session)}</span>
           </div>
 
           <form className="terminal-form" onSubmit={handleSubmit}>
