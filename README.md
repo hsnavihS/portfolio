@@ -27,3 +27,11 @@ Display copy, project technologies, and contact visibility are configured in
 
 Vite uses the repository name from `GITHUB_REPOSITORY` during GitHub Actions builds.
 Set `VITE_BASE_PATH` to override it, including `/` for a custom domain.
+
+## Deployment
+
+The GitHub Pages workflow builds and deploys pushes to `master`. In the repository
+settings, set **Pages → Build and deployment → Source** to **GitHub Actions**.
+
+For a custom domain, add a repository Actions variable named `VITE_BASE_PATH` with
+the value `/`.
