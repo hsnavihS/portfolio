@@ -1,4 +1,4 @@
-import { navigationItems } from "@/content/preview";
+import { portfolioSections } from "@/content/sections";
 
 function DesktopSidebar() {
   return (
@@ -9,16 +9,16 @@ function DesktopSidebar() {
       </div>
 
       <nav className="sidebar-navigation" aria-label="Portfolio preview">
-        {navigationItems.map((item, index) => (
+        {portfolioSections.map((section, index) => (
           <div
             className={`navigation-item${index === 0 ? " is-active" : ""}`}
-            key={item}
+            key={section.id}
           >
             <span className="navigation-marker" aria-hidden="true">
               {index === 0 ? ">" : ""}
             </span>
             <span>{String(index + 1).padStart(2, "0")}</span>
-            <span>{item}</span>
+            <span>{section.navigationLabel}</span>
           </div>
         ))}
       </nav>
