@@ -1,10 +1,15 @@
 import { portfolioData } from "@/content/data";
 import SectionShell from "@/sections/SectionShell";
 
-function ExperienceSection() {
+interface ExperienceSectionProps {
+  includeAnchor?: boolean;
+}
+
+function ExperienceSection({ includeAnchor = true }: ExperienceSectionProps) {
   return (
     <SectionShell
       id="experience"
+      includeAnchor={includeAnchor}
       index={2}
       label="experience"
       title="Work experience"

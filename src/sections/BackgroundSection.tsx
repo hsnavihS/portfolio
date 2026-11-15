@@ -1,10 +1,15 @@
 import { portfolioData } from "@/content/data";
 import SectionShell from "@/sections/SectionShell";
 
-function BackgroundSection() {
+interface BackgroundSectionProps {
+  includeAnchor?: boolean;
+}
+
+function BackgroundSection({ includeAnchor = true }: BackgroundSectionProps) {
   return (
     <SectionShell
       id="education"
+      includeAnchor={includeAnchor}
       index={5}
       label="education"
       title="Education and more"

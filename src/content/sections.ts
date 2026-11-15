@@ -32,3 +32,9 @@ export const portfolioSections = [
 ] as const;
 
 export type PortfolioSectionId = (typeof portfolioSections)[number]["id"];
+
+export function isPortfolioSectionId(
+  value: string,
+): value is PortfolioSectionId {
+  return portfolioSections.some((section) => section.id === value);
+}

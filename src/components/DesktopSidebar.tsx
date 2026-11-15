@@ -1,6 +1,13 @@
 import { portfolioSections } from "@/content/sections";
+import type { PortfolioSectionId } from "@/content/sections";
+import { portfolioData } from "@/content/data";
 
-function DesktopSidebar() {
+interface DesktopSidebarProps {
+  activeSection: PortfolioSectionId;
+  onSelect: (section: PortfolioSectionId) => void;
+}
+
+function DesktopSidebar({ activeSection, onSelect }: DesktopSidebarProps) {
   return (
     <aside className="desktop-sidebar">
       <div>
@@ -10,23 +17,37 @@ function DesktopSidebar() {
 
       <nav className="sidebar-navigation" aria-label="Portfolio preview">
         {portfolioSections.map((section, index) => (
-          <div
-            className={`navigation-item${index === 0 ? " is-active" : ""}`}
+          <button
+            aria-current={activeSection === section.id ? "page" : undefined}
+            className={`navigation-item${
+              activeSection === section.id ? " is-active" : ""
+            }`}
             key={section.id}
+            onClick={() => onSelect(section.id)}
+            type="button"
           >
             <span className="navigation-marker" aria-hidden="true">
-              {index === 0 ? ">" : ""}
+              {activeSection === section.id ? ">" : ""}
             </span>
             <span>{String(index + 1).padStart(2, "0")}</span>
             <span>{section.navigationLabel}</span>
-          </div>
+          </button>
         ))}
       </nav>
 
       <div className="sidebar-footer">
         <div className="sidebar-links">
-          <span>github</span>
-          <span>linkedin</span>
+          {portfolioData.identity.links.map((link) => (
+            <a
+              className="text-link"
+              href={link.url}
+              key={link.label}
+              rel="noreferrer"
+              target="_blank"
+            >
+              {link.label.toLowerCase()}
+            </a>
+          ))}
           <span>download resume</span>
         </div>
         <span className="theme-label">theme: noir</span>

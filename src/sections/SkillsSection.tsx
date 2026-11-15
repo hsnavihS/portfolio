@@ -1,10 +1,15 @@
 import { portfolioData } from "@/content/data";
 import SectionShell from "@/sections/SectionShell";
 
-function SkillsSection() {
+interface SkillsSectionProps {
+  includeAnchor?: boolean;
+}
+
+function SkillsSection({ includeAnchor = true }: SkillsSectionProps) {
   return (
     <SectionShell
       id="skills"
+      includeAnchor={includeAnchor}
       index={4}
       label="skills"
       title="Technical toolkit"

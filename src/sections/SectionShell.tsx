@@ -5,6 +5,7 @@ interface SectionShellProps {
   index: number;
   label: string;
   title: string;
+  includeAnchor?: boolean;
   children: ReactNode;
 }
 
@@ -13,10 +14,11 @@ function SectionShell({
   index,
   label,
   title,
+  includeAnchor = true,
   children,
 }: SectionShellProps) {
   return (
-    <section className="portfolio-section" id={id}>
+    <section className="portfolio-section" id={includeAnchor ? id : undefined}>
       <p className="section-label">
         {String(index).padStart(2, "0")} / {label}
       </p>

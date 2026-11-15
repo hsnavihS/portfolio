@@ -10,13 +10,25 @@
   },
   "projects": {
     "koala-programming-language": {
-      "technologies": ["C++", "WebAssembly", "LSP"]
+      "technologies": ["C++", "WebAssembly", "LSP", "AST"]
     },
     "smartcampus-platform": {
-      "technologies": ["Backend", "React", "PostgreSQL", "Redis"]
+      "technologies": [
+        "Python",
+        "Django REST Framework",
+        "PostgreSQL",
+        "Redis",
+        "Celery"
+      ]
     },
     "bphc-yearbook-portal": {
-      "technologies": ["Web application", "Linux", "Operations"]
+      "technologies": [
+        "Python",
+        "Django REST Framework",
+        "PostgreSQL",
+        "UNIX",
+        "Server Management"
+      ]
     }
   }
 }

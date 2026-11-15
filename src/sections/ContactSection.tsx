@@ -1,12 +1,17 @@
 import { portfolioData } from "@/content/data";
 import SectionShell from "@/sections/SectionShell";
 
-function ContactSection() {
+interface ContactSectionProps {
+  includeAnchor?: boolean;
+}
+
+function ContactSection({ includeAnchor = true }: ContactSectionProps) {
   const { identity } = portfolioData;
 
   return (
     <SectionShell
       id="contact"
+      includeAnchor={includeAnchor}
       index={6}
       label="contact"
       title="Start a conversation"
@@ -17,10 +22,18 @@ function ContactSection() {
 
       <div className="contact-links">
         {identity.email && (
-          <a href={`mailto:${identity.email}`}>{identity.email}</a>
+          <a className="text-link" href={`mailto:${identity.email}`}>
+            {identity.email}
+          </a>
         )}
         {identity.links.map((link) => (
-          <a href={link.url} key={link.label} rel="noreferrer" target="_blank">
+          <a
+            className="text-link"
+            href={link.url}
+            key={link.label}
+            rel="noreferrer"
+            target="_blank"
+          >
             {link.label}
           </a>
         ))}
