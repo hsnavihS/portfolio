@@ -1,0 +1,22 @@
+{
+  "identity": {
+    "headline": "software engineer / systems builder",
+    "summary": "I build backend platforms, AI-powered workflows, programming languages, and products used at scale.",
+    "location": "India"
+  },
+  "contactVisibility": {
+    "email": true,
+    "phone": false
+  },
+  "projects": {
+    "koala-programming-language": {
+      "technologies": ["C++", "WebAssembly", "LSP"]
+    },
+    "smartcampus-platform": {
+      "technologies": ["Backend", "React", "PostgreSQL", "Redis"]
+    },
+    "bphc-yearbook-portal": {
+      "technologies": ["Web application", "Linux", "Operations"]
+    }
+  }
+}
